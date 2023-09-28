@@ -1,0 +1,1 @@
+uvicorn main:app --ssl-keyfile=server.key --ssl-certfile=server.crt

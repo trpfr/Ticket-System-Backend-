@@ -1,0 +1,4 @@
+DELETE BEFORE RELEASE/
+sql_app.db
+server.crt
+server.key
