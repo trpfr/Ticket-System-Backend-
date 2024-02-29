@@ -7,11 +7,9 @@ from fastapi_users import BaseUserManager, UUIDIDMixin
 from models.user import User
 from database import get_user_db
 
-# TODO: Почитать, как правильно поступать с секретом, куда его прятать и как генерировать 2
 SECRET = "SECRET"
 
 
-# TODO: Отправка писем в будущем будет происходить здесь с помощью Celery(?) и Redis(?)
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
