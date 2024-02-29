@@ -10,7 +10,6 @@ async def get_tickets(db: AsyncSession, page: int = 1, per_page: int = 10, user_
     if user_id is not None:
         query = query.filter(Ticket.user_id == user_id)
     else:
-        # Выводим только те тикеты, которые не назначены ни одному юзеру
         query = query.filter(Ticket.user_id.is_(None))
     result = await db.execute(query.offset((page - 1) * per_page).limit(per_page))
     tickets = result.scalars().fetchall()
