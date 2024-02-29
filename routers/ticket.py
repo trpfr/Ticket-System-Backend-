@@ -37,8 +37,6 @@ async def get_ticket(ticket_id: str, db: AsyncSession = Depends(get_async_sessio
     return await async_wrapper(ticket_service.get_ticket, db=db, ticket_id=ticket_id)
 
 
-# Post-запрос для assign_ticket
-# TODO: Может правильнее заменить на айди текущего юзера, а не передавать его?
 @router.post("/{ticket_id}",
              response_model=ticket_dto.Ticket,
              tags=["ticket"],
@@ -48,7 +46,6 @@ async def assign_ticket(ticket_id: str, user_id: str, db: AsyncSession = Depends
     return await async_wrapper(ticket_service.assign_ticket, db=db, ticket_id=ticket_id, user_id=user_id)
 
 
-# Patch-запрос для close_ticket
 @router.patch("/{ticket_id}/close",
               response_model=ticket_dto.Ticket,
               tags=["ticket"],
