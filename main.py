@@ -52,7 +52,6 @@ app.add_middleware(
 
 
 #  Load data from json file to database if database is empty (for first run)
-#  TODO: В будущем использовать для функционала импорта из JSON
 async def load_data_from_json(db_session: AsyncSession, json_file="data.json"):
     result = await db_session.execute(select(Ticket).limit(1))
     instance = result.scalars().first()
