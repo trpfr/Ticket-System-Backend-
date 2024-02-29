@@ -1,5 +1,3 @@
-#  TODO: Вынести в самых верхний уровень, при установки всех системы - либо продублировать для frontend и backend
-#   + вынести настройки адреса
 from cryptography import x509
 from cryptography.x509.oid import NameOID
 from cryptography.hazmat.primitives import hashes
