@@ -31,7 +31,7 @@ install_requirements()
 
 #  Create FastAPI instance
 app = FastAPI(
-    title="WIX Ticket System"
+    title="Ticket System"
 )
 
 origins = [
