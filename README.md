@@ -34,6 +34,7 @@ This porject uses:
 - Uvicorn
 - PyDantic
 - SQLite
+
 Full list of dependencies is in requirement.txt
 
 ## Installation 
