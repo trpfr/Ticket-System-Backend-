@@ -69,5 +69,6 @@ Check the documentation:
 ## Addiditional information:
 
 If there are no users in the database, the program automatically creates a user with the following credentials:
+
 **Email**: admin@localhost.com
 **Password**: admin
