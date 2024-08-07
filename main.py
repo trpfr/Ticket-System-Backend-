@@ -4,15 +4,15 @@ import json
 import subprocess
 import sys
 import uuid
-
+import contextlib
 from fastapi import FastAPI, Depends
 from fastapi_users import FastAPIUsers
+from fastapi_users.manager import BaseUserManager
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from auth.auth import auth_backend
 from auth.mananger import get_user_manager
-from database import async_session_maker, create_db_and_tables
+from database import async_session_maker, create_db_and_tables, get_user_db, get_async_session
 from dto.user import UserRead, UserCreate
 from models.ticket import Ticket
 from models.user import User
@@ -21,13 +21,6 @@ from routers import user as user_router
 import uvicorn
 from starlette.middleware.cors import CORSMiddleware
 
-
-#  Install requirements from requirements.txt
-def install_requirements():
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-
-
-install_requirements()
 
 #  Create FastAPI instance
 app = FastAPI(
@@ -38,14 +31,13 @@ origins = [
     "https://localhost:5173",
     "https://localhost:5173/",
     "https://localhost:5173/*"
-    # другие домены, с которых разрешены запросы
 ]
 
 #  CORS Settings
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,  # разрешить cookies
+    allow_credentials=True, 
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -65,6 +57,27 @@ async def load_data_from_json(db_session: AsyncSession, json_file="data.json"):
         await db_session.commit()
 
 
+# Create a default admin user
+async def create_default_admin_user(db_session: AsyncSession):
+    try:
+        result = await db_session.execute(select(User).limit(1))
+        instance = result.scalars().first()
+        if not instance:
+            get_async_session_context = contextlib.asynccontextmanager(get_async_session)
+            get_user_db_context = contextlib.asynccontextmanager(get_user_db)
+            get_user_manager_context = contextlib.asynccontextmanager(get_user_manager)
+            async with get_async_session_context() as session:
+                async with get_user_db_context(session) as user_db:
+                    async with get_user_manager_context(user_db) as user_manager:
+                        user = await user_manager.create(
+                            UserCreate(
+                                email="admin@localhost.com", password="admin", is_superuser=True
+                            )
+                        )
+                        print(f"User created {user}")
+    except Exception as e:
+        print(f"Error: {e}")
+
 @app.on_event("startup")
 async def startup_event():
     await create_db_and_tables()
@@ -73,7 +86,8 @@ async def startup_event():
 
     # Load data from json file to database if database is empty (for first run)
     await load_data_from_json(db)
-
+    # Create default admin user
+    await create_default_admin_user(db)
     # Close database session
     await db.close()
 
