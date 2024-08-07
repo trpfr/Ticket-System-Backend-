@@ -2,6 +2,8 @@
 
 $${\color{red}Still}$$ $${\color{red}in}$$ $${\color{red}development}$$ 🚧
 
+### Frontend for the project is here: https://github.com/piratinskii/Ticket-System-Frontend
+
 ## Project Description
 
 OpenSource TicketSystem is a simple and intuitive ticketing system with a basic web interface, developed as a pet project. The backend is written in FastAPI (Python),
