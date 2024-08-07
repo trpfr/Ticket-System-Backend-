@@ -2,7 +2,7 @@
 
 $${\color{red}Still}$$ $${\color{red}in}$$ $${\color{red}development}$$ 🚧
 
-### Frontend for the project is here: https://github.com/piratinskii/Ticket-System-Frontend
+Frontend for the project is here: https://github.com/piratinskii/Ticket-System-Frontend
 
 ## Project Description
 
