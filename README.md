@@ -65,3 +65,9 @@ Run the server:
 
 Check the documentation:
 ```https://127.0.0.1:8000/docs``` in your browser
+
+## Addiditional information:
+
+If there are no users in the database, the program automatically creates a user with the following credentials:
+**Email**: admin@localhost.com
+**Password**: admin
